@@ -1,539 +1,723 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>To'yga Taklifnoma</title>
-    <style>
-        :root {
-            --primary: #ffd700;
-            --primary-glow: rgba(255, 215, 0, 0.6);
-            --accent-red: #ff2a6d;
-            --bg-dark: #0a0512;
-            --card-bg: rgba(20, 10, 35, 0.75);
-            --gold-gradient: linear-gradient(135deg, #ffe066 0%, #d4af37 50%, #996515 100%);
-            --glass-border: linear-gradient(135deg, rgba(255,215,0,0.5), rgba(255,255,255,0.1));
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Farrux &amp; Sevora вЂ” To'y taklifnomasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FBF8F3;
+    --paper:#F1EBDF;
+    --charcoal:#2B2A25;
+    --charcoal-soft:#5B584F;
+    --sage:#5F6F49;
+    --sage-dark:#3F4A30;
+    --sage-tint:#DFE4D3;
+    --gold:#B08D57;
+    --white:#FFFFFF;
+    --line: rgba(43,42,37,0.14);
+  }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+  *{ margin:0; padding:0; box-sizing:border-box; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            perspective: 1000px;
-            padding: 15px;
-            background-image: 
-                radial-gradient(circle at 50% 20%, #2a0845 0%, transparent 60%),
-                radial-gradient(circle at 80% 80%, #6441a5 0%, transparent 50%);
-        }
+  html{ -webkit-text-size-adjust:100%; }
 
-        /* Ambient Glow & Floating Particles */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+  body{
+    font-family:'Jost', sans-serif;
+    background: linear-gradient(180deg, var(--paper) 0%, var(--ivory) 40%);
+    color: var(--charcoal);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding: 28px 14px;
+    line-height:1.6;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 390px;
-            margin: 0 auto;
-        }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
 
-        /* 3D Glass Card */
-        .card-3d {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 28px;
-            padding: 30px 22px;
-            text-align: center;
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.8),
-                inset 0 0 15px rgba(255, 215, 0, 0.15),
-                0 0 30px rgba(212, 175, 55, 0.2);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            transform-style: preserve-3d;
-            transition: transform 0.2s ease-out;
-            animation: cardFloat 6s ease-in-out infinite alternate;
-        }
+  a{ color:inherit; }
 
-        @keyframes cardFloat {
-            0% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
-            100% { transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); }
-        }
+  #petals{
+    position:fixed; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:1;
+  }
 
-        /* SVG Vector Illustrations (Pure Vector Graphics) */
-        .vector-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 10px;
-            filter: drop-shadow(0 0 10px var(--primary-glow));
-            animation: pulseVector 2.5s infinite ease-in-out;
-        }
+  .invite{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:460px;
+    background: var(--ivory);
+    border-radius: 30px;
+    overflow:hidden;
+    box-shadow: 0 30px 60px rgba(63,58,42,0.18), 0 4px 14px rgba(63,58,42,0.1);
+    opacity:0;
+    transform: translateY(14px);
+    animation: riseIn 1s cubic-bezier(.2,.7,.3,1) forwards;
+    animation-delay: .15s;
+  }
 
-        @keyframes pulseVector {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--primary-glow)); }
-            50% { transform: scale(1.08); filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.9)); }
-        }
+  @keyframes riseIn{
+    to{ opacity:1; transform:translateY(0); }
+  }
 
-        .title {
-            font-size: 14px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #d4af37;
-            margin-bottom: 15px;
-            font-weight: 600;
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-        }
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    height: 62vh;
+    min-height: 420px;
+    max-height: 560px;
+    overflow:hidden;
+  }
 
-        .names {
-            font-size: 30px;
-            font-weight: 800;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 15px 0;
-            line-height: 1.2;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-            letter-spacing: 0.5px;
-        }
+  .hero img{
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position: 50% 40%;
+    display:block;
+    filter: saturate(0.92) contrast(1.02);
+  }
 
-        .message {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #e0d8f0;
-            margin: 18px 0;
-            font-weight: 300;
-        }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(20,20,15,0.05) 0%, rgba(20,20,15,0.08) 40%, rgba(20,18,12,0.78) 100%);
+  }
 
-        /* Countdown Box */
-        .timer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin: 22px 0;
-        }
+  .hero-content{
+    position:absolute; left:0; right:0; bottom:0;
+    padding: 26px 30px 30px;
+    color: var(--white);
+    text-align:center;
+  }
 
-        .timer-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 12px;
-            padding: 10px 4px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
+  .eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size: 16px;
+    color: #EFE8D6;
+    letter-spacing: .3px;
+    margin-bottom: 10px;
+    opacity:.92;
+  }
 
-        .timer-val {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffd700;
-            text-shadow: 0 0 6px rgba(255,215,0,0.5);
-        }
+  .couple-names{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    font-size: 44px;
+    line-height:1.05;
+    letter-spacing: .5px;
+  }
 
-        .timer-lbl {
-            font-size: 9px;
-            color: #a090c0;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
+  .amp{
+    display:block;
+    font-style:italic;
+    font-size: 22px;
+    color: #E8DEC4;
+    margin: 4px 0;
+  }
 
-        /* Details Box */
-        .info-card {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 16px;
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            text-align: left;
-        }
+  .hero-date{
+    margin-top: 12px;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    color: #E4DCC7;
+  }
 
-        .info-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+  .scroll-cue{
+    position:absolute;
+    bottom: 10px; left:50%;
+    transform: translateX(-50%);
+    width: 18px; height: 28px;
+    border: 1.4px solid rgba(255,255,255,.65);
+    border-radius: 12px;
+  }
+  .scroll-cue::before{
+    content:"";
+    position:absolute; top:5px; left:50%;
+    width:3px; height:6px;
+    background: rgba(255,255,255,.85);
+    border-radius:2px;
+    transform: translateX(-50%);
+    animation: cueDrop 1.8s ease-in-out infinite;
+  }
+  @keyframes cueDrop{
+    0%{ opacity:0; top:5px; }
+    30%{ opacity:1; }
+    80%{ opacity:0; top:15px; }
+    100%{ opacity:0; top:5px; }
+  }
 
-        .info-row:last-child {
-            margin-bottom: 0;
-        }
+  /* ---------- SECTIONS ---------- */
+  section{
+    padding: 40px 30px;
+  }
 
-        .info-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 12px;
-            flex-shrink: 0;
-            fill: #ffd700;
-        }
+  .intro{
+    text-align:center;
+    padding-bottom: 8px;
+  }
 
-        .info-text {
-            font-size: 13px;
-            color: #f0e6ff;
-        }
+  .intro p{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size: 20px;
+    line-height:1.55;
+    color: var(--charcoal);
+  }
 
-        .info-text strong {
-            color: #ffd700;
-        }
+  .sprig{
+    display:block;
+    width: 46px;
+    height: auto;
+    margin: 0 auto;
+    opacity: .8;
+  }
 
-        /* 3D Interactive Location Button */
-        .btn-3d {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
-            color: #000;
-            font-weight: 800;
-            font-size: 15px;
-            text-decoration: none;
-            border-radius: 50px;
-            box-shadow: 
-                0 10px 25px rgba(255, 140, 0, 0.5),
-                0 0 15px rgba(255, 215, 0, 0.4),
-                inset 0 2px 2px rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 15px;
-            border: none;
-            cursor: pointer;
-        }
+  .divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 4px 30px 0;
+  }
 
-        .btn-3d:active {
-            transform: scale(0.97);
-            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
-        }
+  /* ---------- COUNTDOWN ---------- */
+  .countdown{
+    padding-top: 6px;
+    text-align:center;
+  }
 
-        .btn-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-            fill: #000;
-        }
+  .section-label{
+    font-size: 12px;
+    color: var(--charcoal-soft);
+    letter-spacing: .3px;
+    margin-bottom: 18px;
+  }
 
-        /* Audio Control FAB */
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gold-gradient);
-            border: none;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 100;
-            animation: spinMusic 4s linear infinite;
-        }
+  .timer-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
 
-        .music-btn.paused {
-            animation-play-state: paused;
-            opacity: 0.7;
-        }
+  .timer-unit{
+    flex:1;
+    padding: 0 6px;
+  }
 
-        @keyframes spinMusic {
-            100% { transform: rotate(360deg); }
-        }
+  .timer-val{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size: 34px;
+    color: var(--sage-dark);
+    font-variant-numeric: tabular-nums;
+  }
 
-        .music-icon {
-            width: 22px;
-            height: 22px;
-            fill: #000;
-        }
+  .timer-lbl{
+    font-size: 11px;
+    color: var(--charcoal-soft);
+    margin-top: 2px;
+  }
 
-        /* Auto-play Prompt Overlay */
-        .play-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 5, 18, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            transition: opacity 0.5s ease;
-        }
+  .timer-sep{
+    width:1px; height: 30px;
+    background: var(--line);
+  }
 
-        .play-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+  /* ---------- DETAILS ---------- */
+  .details{
+    background: var(--paper);
+    border-radius: 22px;
+    margin: 0 30px;
+    width:auto;
+    padding: 26px 22px;
+  }
 
-        .overlay-btn {
-            margin-top: 20px;
-            padding: 14px 32px;
-            background: var(--gold-gradient);
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #000;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-        }
-    </style>
+  .detail-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    text-align:left;
+  }
+  .detail-row:last-of-type{ border-bottom:none; }
+
+  .detail-icon{
+    width: 20px; height:20px;
+    flex-shrink:0;
+    margin-top:2px;
+    fill: none;
+    stroke: var(--sage-dark);
+    stroke-width:1.6;
+  }
+
+  .detail-label{
+    font-size: 12px;
+    color: var(--charcoal-soft);
+    margin-bottom: 2px;
+  }
+
+  .detail-value{
+    font-size: 15px;
+    color: var(--charcoal);
+    font-weight:500;
+  }
+
+  .map-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--sage-dark);
+    color: var(--white);
+    text-decoration:none;
+    border-radius: 50px;
+    font-size: 14px;
+    letter-spacing:.3px;
+    transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow: 0 10px 22px rgba(63,74,48,0.28);
+  }
+  .map-btn:active{ transform: scale(.97); }
+  .map-btn svg{ width:16px; height:16px; stroke:var(--white); fill:none; stroke-width:1.8; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{
+    text-align:center;
+  }
+
+  .timeline-list{
+    margin-top: 22px;
+    text-align:left;
+    position:relative;
+    padding-left: 22px;
+  }
+
+  .timeline-list::before{
+    content:"";
+    position:absolute;
+    left: 5px; top:6px; bottom:6px;
+    width:1px;
+    background: var(--line);
+  }
+
+  .tl-item{
+    position:relative;
+    padding-bottom: 26px;
+  }
+  .tl-item:last-child{ padding-bottom:0; }
+
+  .tl-item::before{
+    content:"";
+    position:absolute;
+    left: -22px; top:4px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background: var(--sage);
+    box-shadow: 0 0 0 4px var(--sage-tint);
+  }
+
+  .tl-time{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size: 19px;
+    color: var(--sage-dark);
+  }
+
+  .tl-text{
+    font-size: 13.5px;
+    color: var(--charcoal-soft);
+    margin-top: 2px;
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery{
+    text-align:center;
+  }
+
+  .frame{
+    margin-top: 18px;
+    border-radius: 18px;
+    overflow:hidden;
+    box-shadow: 0 18px 34px rgba(63,58,42,0.18);
+  }
+
+  .frame img{
+    width:100%;
+    display:block;
+    object-fit:cover;
+    aspect-ratio: 4/5;
+    object-position: 60% 35%;
+  }
+
+  .frame-caption{
+    margin-top: 12px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size: 16px;
+    color: var(--charcoal-soft);
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    text-align:center;
+    padding-top: 10px;
+    padding-bottom: 44px;
+  }
+
+  .footer .amp-lg{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size: 30px;
+    color: var(--sage-dark);
+    margin-bottom: 6px;
+  }
+
+  .footer p{
+    font-size: 13.5px;
+    color: var(--charcoal-soft);
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* ---------- MUSIC CONTROL ---------- */
+  .music-btn{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 46px; height:46px;
+    border-radius:50%;
+    border:none;
+    background: var(--white);
+    box-shadow: 0 8px 20px rgba(63,58,42,0.22);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    z-index: 50;
+  }
+  .music-btn svg{
+    width:18px; height:18px;
+    fill: var(--sage-dark);
+    transition: opacity .2s ease;
+  }
+  .music-btn .icon-pause{ display:none; }
+  .music-btn.playing .icon-play{ display:none; }
+  .music-btn.playing .icon-pause{ display:block; }
+
+  /* ---------- START OVERLAY ---------- */
+  .start-overlay{
+    position:fixed; inset:0;
+    background: rgba(30,28,22,0.92);
+    backdrop-filter: blur(6px);
+    z-index: 300;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    padding: 30px;
+    color: var(--white);
+    transition: opacity .5s ease;
+  }
+  .start-overlay.hidden{ opacity:0; pointer-events:none; }
+
+  .start-overlay .sprig{ filter: brightness(0) invert(1); opacity:.85; margin-bottom:18px; }
+
+  .start-overlay h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .start-overlay p{
+    font-size: 13.5px;
+    color: #D9D3C4;
+    max-width: 240px;
+  }
+
+  .start-btn{
+    margin-top: 26px;
+    padding: 14px 34px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.55);
+    color: var(--white);
+    border-radius: 50px;
+    font-family:'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor:pointer;
+  }
+
+  @media (min-width: 480px){
+    body{ padding: 48px 20px; }
+  }
+</style>
 </head>
 <body>
 
-    <!-- Particle Canvas -->
-    <canvas id="bg-canvas"></canvas>
+<canvas id="petals"></canvas>
 
-    <!-- Music Control Button -->
-    <button class="music-btn paused" id="musicToggle" aria-label="Musiqani yoqish/o'chirish">
-        <svg class="music-icon" viewBox="0 0 24 24">
-            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-        </svg>
-    </button>
+<!-- Tap to start -->
+<div class="start-overlay" id="startOverlay">
+  <svg class="sprig" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30 4 C30 22 30 38 30 56" stroke="#fff" stroke-width="1.2" fill="none"/>
+    <path d="M30 14 C22 12 16 16 14 22 C22 22 27 19 30 14Z" fill="#fff"/>
+    <path d="M30 14 C38 12 44 16 46 22 C38 22 33 19 30 14Z" fill="#fff"/>
+    <path d="M30 30 C22 28 16 32 14 38 C22 38 27 35 30 30Z" fill="#fff"/>
+    <path d="M30 30 C38 28 44 32 46 38 C38 38 33 35 30 30Z" fill="#fff"/>
+  </svg>
+  <h1>Farrux &amp; Sevora</h1>
+  <p>Taklifnomani ochish uchun bosing вЂ” musiqa va animatsiyalar shu yerdan boshlanadi</p>
+  <button class="start-btn" onclick="startExperience()">Taklifnomani ochish</button>
+</div>
 
-    <!-- Tap to Start Audio Overlay -->
-    <div class="play-overlay" id="playOverlay">
-        <svg class="vector-icon" viewBox="0 0 24 24" style="width: 80px; height: 80px;">
-            <path fill="#ffd700" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-        <h2>To'y Taklifnomasi</h2>
-        <p style="margin-top: 8px; color: #a090c0; font-size: 14px;">Musiqa va animatsiyalarni ko'rish uchun bosing</p>
-        <button class="overlay-btn" onclick="startExperience()">Taklifnomani Ochish</button>
+<audio id="bgAudio" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" id="musicToggle" aria-label="Musiqani yoqish/o'chirish">
+  <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+</button>
+
+<main class="invite">
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="1788617540443_image.png" alt="Farrux va Sevoraning qo'l ushlashgan lahzasi">
+    <div class="hero-content">
+      <div class="eyebrow">Nikoh to'yimizga sizni taklif qilamiz</div>
+      <div class="couple-names" id="namesContainer">
+        Farrux<span class="amp">&amp;</span>Sevora
+      </div>
+      <div class="hero-date" id="heroDate">15 OKTABR 2026</div>
     </div>
+    <div class="scroll-cue"></div>
+  </div>
 
-    <!-- Audio Player -->
-    <audio id="bgAudio" loop preload="auto">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+  <!-- INTRO -->
+  <section class="intro">
+    <p>Hayotimizning eng go'zal kunida yonimizda bo'lib, quvonchimizga sherik bo'lishingizni istardik. Ushbu maxsus lahzani siz azizlarimiz bilan birga nishonlashdan behad mamnun bo'lamiz.</p>
+  </section>
 
-    <!-- Main Card Container -->
-    <div class="container">
-        <div class="card-3d" id="card">
-            
-            <!-- Pure Vector Rings & Doves Graphics -->
-            <svg class="vector-icon" viewBox="0 0 100 100">
-                <defs>
-                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#ffe066" />
-                        <stop offset="50%" stop-color="#d4af37" />
-                        <stop offset="100%" stop-color="#996515" />
-                    </linearGradient>
-                </defs>
-                <!-- Interlocking 3D Rings -->
-                <circle cx="38" cy="50" r="22" fill="none" stroke="url(#goldGrad)" stroke-width="6" />
-                <circle cx="62" cy="50" r="22" fill="none" stroke="url(#goldGrad)" stroke-width="6" />
-                <!-- Gem Sparkle -->
-                <polygon points="38,20 41,26 47,26 42,30 44,36 38,32 32,36 34,30 29,26 35,26" fill="#ffffff" />
-            </svg>
+  <div class="divider">
+    <svg class="sprig" viewBox="0 0 60 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12 H58" stroke="#5F6F49" stroke-width="1" opacity="0.5"/>
+      <path d="M30 4 C30 9 30 15 30 20" stroke="#5F6F49" stroke-width="1.1" fill="none"/>
+      <path d="M30 8 C25 7 21 10 20 14 C25 14 28 12 30 8Z" fill="#8B9B72"/>
+      <path d="M30 8 C35 7 39 10 40 14 C35 14 32 12 30 8Z" fill="#8B9B72"/>
+    </svg>
+  </div>
 
-            <div class="title">TANTANALI TAKLIFNOMA</div>
+  <!-- COUNTDOWN -->
+  <section class="countdown">
+    <div class="section-label">To'yimizga qolgan vaqt</div>
+    <div class="timer-row">
+      <div class="timer-unit"><div class="timer-val" id="days">00</div><div class="timer-lbl">kun</div></div>
+      <div class="timer-sep"></div>
+      <div class="timer-unit"><div class="timer-val" id="hours">00</div><div class="timer-lbl">soat</div></div>
+      <div class="timer-sep"></div>
+      <div class="timer-unit"><div class="timer-val" id="minutes">00</div><div class="timer-lbl">daqiqa</div></div>
+      <div class="timer-sep"></div>
+      <div class="timer-unit"><div class="timer-val" id="seconds">00</div><div class="timer-lbl">soniya</div></div>
+    </div>
+  </section>
 
-            <div class="names" id="namesContainer">Yuklanmoqda...</div>
-
-            <p class="message">
-                Hayotimizning eng go'zal va unutilmas kunida siz azizlarni baxtli kunimiz shohidiga aylanishingiz uchun lutfan taklif etamiz.
-            </p>
-
-            <!-- Live Countdown Timer -->
-            <div class="timer-grid">
-                <div class="timer-card">
-                    <div class="timer-val" id="days">00</div>
-                    <div class="timer-lbl">Kun</div>
-                </div>
-                <div class="timer-card">
-                    <div class="timer-val" id="hours">00</div>
-                    <div class="timer-lbl">Soat</div>
-                </div>
-                <div class="timer-card">
-                    <div class="timer-val" id="minutes">00</div>
-                    <div class="timer-lbl">Daqiqa</div>
-                </div>
-                <div class="timer-card">
-                    <div class="timer-val" id="seconds">00</div>
-                    <div class="timer-lbl">Soniya</div>
-                </div>
-            </div>
-
-            <!-- Event Details -->
-            <div class="info-card">
-                <div class="info-row">
-                    <svg class="info-icon" viewBox="0 0 24 24">
-                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-                    </svg>
-                    <div class="info-text">
-                        Sana: <strong id="dateDisplay">...</strong>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <svg class="info-icon" viewBox="0 0 24 24">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
-                    <div class="info-text">
-                        Manzil: <strong>"Visol" Muhtasham Tantanalar Saroyi</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Map Button -->
-            <a href="https://maps.app.goo.gl/miqrH1k2jMxrQp8TA" target="_blank" class="btn-3d">
-                <svg class="btn-icon" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-                Xaritadan Ko'rish
-            </a>
-
+  <!-- DETAILS -->
+  <section style="padding-top:6px;">
+    <div class="details">
+      <div class="detail-row">
+        <svg class="detail-icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+        <div>
+          <div class="detail-label">Sana</div>
+          <div class="detail-value" id="dateDisplay">15 oktabr 2026, payshanba</div>
         </div>
+      </div>
+      <div class="detail-row">
+        <svg class="detail-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <div>
+          <div class="detail-label">Vaqt</div>
+          <div class="detail-value">18:00 dan boshlab</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+        <div>
+          <div class="detail-label">Manzil</div>
+          <div class="detail-value">"Visol" Muhtasham Tantanalar Saroyi</div>
+        </div>
+      </div>
+      <a href="https://maps.app.goo.gl/miqrH1k2jMxrQp8TA" target="_blank" class="map-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+        Xaritada ko'rish
+      </a>
     </div>
+  </section>
 
-    <script>
-        // Load Dynamic Names and Date from TXT files
-        let targetDate = new Date();
+  <!-- TIMELINE -->
+  <section class="timeline">
+    <div class="section-label">Kechaning kun tartibi</div>
+    <div class="timeline-list">
+      <div class="tl-item">
+        <div class="tl-time">18:00</div>
+        <div class="tl-text">Mehmonlarni kutib olish va joylashish</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">19:00</div>
+        <div class="tl-text">Kelin-kuyovning kelishi va nikoh marosimi</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">20:00</div>
+        <div class="tl-text">Tabriklar, tostlar va bayramona dastur</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">23:00</div>
+        <div class="tl-text">Kechaning yakuni</div>
+      </div>
+    </div>
+  </section>
 
-        async function loadData() {
-            try {
-                const ismlarRes = await fetch('ismlar.txt');
-                if(ismlarRes.ok) {
-                    const names = await ismlarRes.text();
-                    document.getElementById('namesContainer').innerText = names.trim();
-                }
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="section-label">Bir lahza</div>
+    <div class="frame">
+      <img src="1788617540443_image.png" alt="Farrux va Sevora">
+    </div>
+    <div class="frame-caption">"Ha" degan kunimiz</div>
+  </section>
 
-                const sanaRes = await fetch('sana.txt');
-                if(sanaRes.ok) {
-                    const sanaText = (await sanaRes.text()).trim();
-                    document.getElementById('dateDisplay').innerText = sanaText;
-                    
-                    // Parse target date
-                    targetDate = new Date(sanaText.replace(' ', 'T'));
-                }
-            } catch (e) {
-                console.log("Fayllarni yuklashda xatolik:", e);
-                document.getElementById('namesContainer').innerText = "Kuyov & Kelin";
-                document.getElementById('dateDisplay').innerText = "2026-10-15 18:00";
-            }
+  <!-- FOOTER -->
+  <section class="footer">
+    <div class="amp-lg">Farrux &amp; Sevora</div>
+    <p>Sizni ushbu unutilmas kechada ko'rishdan mamnun bo'lamiz.</p>
+  </section>
+
+</main>
+
+<script>
+  // ---------- Load names & date ----------
+  let targetDate = new Date('2026-10-15T18:00:00');
+
+  const monthsUz = ['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+  const daysUz = ['yakshanba','dushanba','seshanba','chorshanba','payshanba','juma','shanba'];
+
+  function formatUzDate(d){
+    return `${d.getDate()} ${monthsUz[d.getMonth()]} ${d.getFullYear()}, ${daysUz[d.getDay()]}`;
+  }
+  function formatUzTime(d){
+    return d.toTimeString().slice(0,5);
+  }
+
+  async function loadData(){
+    try{
+      const namesRes = await fetch('ismlar.txt');
+      if(namesRes.ok){
+        const raw = (await namesRes.text()).trim();
+        const parts = raw.split('&').map(s => s.trim()).filter(Boolean);
+        if(parts.length === 2){
+          document.getElementById('namesContainer').innerHTML =
+            `${parts[0]}<span class="amp">&amp;</span>${parts[1]}`;
         }
+      }
+    }catch(e){ /* keep defaults */ }
 
-        loadData();
-
-        // Countdown Timer Logic
-        function updateTimer() {
-            const now = new Date();
-            const diff = targetDate - now;
-
-            if (diff > 0) {
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const m = Math.floor((diff / 1000 / 60) % 60);
-                const s = Math.floor((diff / 1000) % 60);
-
-                document.getElementById('days').innerText = String(d).padStart(2, '0');
-                document.getElementById('hours').innerText = String(h).padStart(2, '0');
-                document.getElementById('minutes').innerText = String(m).padStart(2, '0');
-                document.getElementById('seconds').innerText = String(s).padStart(2, '0');
-            } else {
-                document.getElementById('days').innerText = "00";
-                document.getElementById('hours').innerText = "00";
-                document.getElementById('minutes').innerText = "00";
-                document.getElementById('seconds').innerText = "00";
-            }
+    try{
+      const dateRes = await fetch('sana.txt');
+      if(dateRes.ok){
+        const raw = (await dateRes.text()).trim();
+        const parsed = new Date(raw.replace(' ', 'T'));
+        if(!isNaN(parsed)){
+          targetDate = parsed;
+          document.getElementById('dateDisplay').textContent = formatUzDate(parsed);
+          document.getElementById('heroDate').textContent = formatUzDate(parsed).toUpperCase();
+          document.querySelectorAll('.detail-value')[1].textContent = formatUzTime(parsed) + ' dan boshlab';
         }
-        setInterval(updateTimer, 1000);
+      }
+    }catch(e){ /* keep defaults */ }
+  }
+  loadData();
 
-        // Audio Controller Logic
-        const audio = document.getElementById('bgAudio');
-        const musicBtn = document.getElementById('musicToggle');
-        const overlay = document.getElementById('playOverlay');
+  // ---------- Countdown ----------
+  function updateTimer(){
+    const diff = targetDate - new Date();
+    const els = {
+      d: document.getElementById('days'),
+      h: document.getElementById('hours'),
+      m: document.getElementById('minutes'),
+      s: document.getElementById('seconds')
+    };
+    if(diff > 0){
+      els.d.textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+      els.h.textContent = String(Math.floor(diff/3600000)%24).padStart(2,'0');
+      els.m.textContent = String(Math.floor(diff/60000)%60).padStart(2,'0');
+      els.s.textContent = String(Math.floor(diff/1000)%60).padStart(2,'0');
+    }else{
+      els.d.textContent = els.h.textContent = els.m.textContent = els.s.textContent = '00';
+    }
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
 
-        function startExperience() {
-            overlay.classList.add('hidden');
-            audio.play().then(() => {
-                musicBtn.classList.remove('paused');
-            }).catch(() => {
-                console.log("Audio play blocked");
-            });
-        }
+  // ---------- Audio ----------
+  const audio = document.getElementById('bgAudio');
+  const musicBtn = document.getElementById('musicToggle');
+  const overlay = document.getElementById('startOverlay');
 
-        musicBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                musicBtn.classList.remove('paused');
-            } else {
-                audio.pause();
-                musicBtn.classList.add('paused');
-            }
-        });
+  function startExperience(){
+    overlay.classList.add('hidden');
+    audio.play().then(() => musicBtn.classList.add('playing')).catch(() => {});
+  }
 
-        // Background Floating Gold Dust Animation (Canvas)
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
+  musicBtn.addEventListener('click', () => {
+    if(audio.paused){
+      audio.play();
+      musicBtn.classList.add('playing');
+    }else{
+      audio.pause();
+      musicBtn.classList.remove('playing');
+    }
+  });
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+  // ---------- Ambient falling petals (subtle) ----------
+  const canvas = document.getElementById('petals');
+  const ctx = canvas.getContext('2d');
+  function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize);
+  resize();
 
-        const particles = [];
-        for (let i = 0; i < 40; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                r: Math.random() * 2 + 1,
-                dY: Math.random() * -0.5 - 0.2,
-                opacity: Math.random()
-            });
-        }
+  const petals = Array.from({length: 10}, () => ({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*3 + 2.5,
+    sway: Math.random()*1.2 + 0.4,
+    speed: Math.random()*0.35 + 0.15,
+    phase: Math.random()*Math.PI*2,
+    opacity: Math.random()*0.25 + 0.12
+  }));
 
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.7)';
-            
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fill();
-
-                p.y += p.dY;
-                if (p.y < 0) {
-                    p.y = canvas.height;
-                    p.x = Math.random() * canvas.width;
-                }
-            });
-            requestAnimationFrame(drawParticles);
-        }
-        drawParticles();
-
-        // Mobile Gyro / Tilt 3D Effect
-        const card = document.getElementById('card');
-        window.addEventListener('deviceorientation', (e) => {
-            if (e.beta && e.gamma) {
-                const tiltX = Math.min(Math.max((e.beta - 40) / 4, -10), 10);
-                const tiltY = Math.min(Math.max(e.gamma / 4, -10), 10);
-                card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-            }
-        });
-    </script>
+  function drawPetals(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#8B9B72';
+    petals.forEach(p => {
+      const x = p.x + Math.sin(t/1800 + p.phase) * 12 * p.sway;
+      ctx.globalAlpha = p.opacity;
+      ctx.beginPath();
+      ctx.ellipse(x, p.y, p.r, p.r*1.7, Math.PI/4, 0, Math.PI*2);
+      ctx.fill();
+      p.y += p.speed;
+      if(p.y > canvas.height + 10){ p.y = -10; p.x = Math.random()*canvas.width; }
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(drawPetals);
+  }
+  requestAnimationFrame(drawPetals);
+</script>
 </body>
 </html>
